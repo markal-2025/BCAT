@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("./fonts/HelveticaNeueBlack.otf") format("otf"),
+    url("./fonts/HelveticaNeueBold.otf") format("otf"),
+    url("./fonts/HelveticaNeueLight.otf") format("otf"),
+    url("./fonts/HelveticaNeueMedium.otf") format("otf");
+  font-style: normal;
+  font-display: swap;
+}
+.btn-primary {
+  @apply w-1/5 px-4 py-2 font-normal text-white rounded-full bg-Turquoise;
+}
+
+.btn-secondary {
+  @apply flex items-center px-4 py-1 font-normal text-black transition-all duration-300 border rounded-full border-Turquoise hover:bg-Turquoise hover:text-white;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
+@media print {
+  .chart-container {
+    break-inside: avoid;
+    position: relative !important;
+    visibility: visible !important;
+  }
+}
