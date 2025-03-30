@@ -16,6 +16,7 @@
 // import { useEffect } from "react";
 import { PulseLoader } from "react-spinners";
 import { useSurvey } from "../../contexts/Survey";
+import { useEffect } from "react";
 
 /**
  * DesiredSkills component for rating the importance of various skills
@@ -33,23 +34,23 @@ const DesiredSkills = ({ handlePrev }: { handlePrev: () => void }) => {
   } = useSurvey();
 
   // Commented code below would have randomly pre-selected responses for testing
-  // const possibleResponses = ["veryImportant", "someWhat", "notImportant"];
+  const possibleResponses = ["veryImportant", "someWhat", "notImportant"];
 
   // Function to randomly pre-check inputs
-  // const preselectRandomResponses = () => {
-  //   const randomSelections = skills.map((skill) => ({
-  //     desiredSkillId: skill.skillId,
-  //     response:
-  //       possibleResponses[Math.floor(Math.random() * possibleResponses.length)],
-  //   }));
+  const preselectRandomResponses = () => {
+    const randomSelections = skills.map((skill) => ({
+      desiredSkillId: skill.skillId,
+      response:
+        possibleResponses[Math.floor(Math.random() * possibleResponses.length)],
+    }));
 
-  //   setSelectedSkills(randomSelections);
-  // };
+    setSelectedSkills(randomSelections);
+  };
 
   // Run this function once when the component mounts
-  // useEffect(() => {
-  //   preselectRandomResponses();
-  // }, []);
+  useEffect(() => {
+    preselectRandomResponses();
+  }, []);
 
   /**
    * Updates the selected rating for a skill when a radio button is clicked

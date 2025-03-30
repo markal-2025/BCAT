@@ -63,8 +63,8 @@ const Layout: React.FC<LayoutProps> = ({ sideBar, content, title }) => {
   useEffect(() => {
     if (currentOrganization) {
       setCurrenOrganization(undefined);
+      getMyTeams();
     }
-    getMyTeams();
   }, []);
 
   return (

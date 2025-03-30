@@ -13,7 +13,7 @@
  * - Provides navigation between pages and survey steps
  */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PulseLoader } from "react-spinners";
 import { useSurvey } from "../../contexts/Survey";
 
@@ -41,23 +41,23 @@ const Behaviour = ({
   const { traits, selectedTraits, setSelectedTraits, loading } = useSurvey();
 
   // Commented code for random selection (testing purposes)
-  // const possibleResponses = ["favorable", "no opinion", "unfavorable"];
+  const possibleResponses = ["favorable", "no opinion", "unfavorable"];
 
   // Function to randomly pre-check inputs
-  // const preselectRandomResponses = () => {
-  //   const randomSelections = traits.map((trait) => ({
-  //     traitId: trait.traitId,
-  //     response:
-  //       possibleResponses[Math.floor(Math.random() * possibleResponses.length)],
-  //   }));
+  const preselectRandomResponses = () => {
+    const randomSelections = traits.map((trait) => ({
+      traitId: trait.traitId,
+      response:
+        possibleResponses[Math.floor(Math.random() * possibleResponses.length)],
+    }));
 
-  //   setSelectedTraits(randomSelections);
-  // };
+    setSelectedTraits(randomSelections);
+  };
 
   // Run this function once when the component mounts
-  // useEffect(() => {
-  //   preselectRandomResponses();
-  // }, []);
+  useEffect(() => {
+    preselectRandomResponses();
+  }, []);
 
   /**
    * Checks if all traits on the current page have been answered

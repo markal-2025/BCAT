@@ -20,7 +20,6 @@ import { useNavigate } from "react-router-dom";
 import { toast, Bounce } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 import api from "../../../../utils/api";
-import { useAuth } from "../../../contexts/Auth";
 import Create from "../../../icons/Create";
 import {
   markInvalidFields,
@@ -53,9 +52,6 @@ export interface Team {
 const CreateOrganization = () => {
   // Navigation hook
   const navigate = useNavigate();
-
-  // Authentication context
-  const { user } = useAuth();
 
   // Loading state
   const [isLoading, setIsLoading] = useState(false);
@@ -286,18 +282,15 @@ const CreateOrganization = () => {
 
       {/* BCAT Facilitator and logo section */}
       <div className="flex flex-col gap-2 py-6 border-t border-gray-300">
-        {user && (
-          <>
-            <h2>BCAT Facilitator</h2>
-            <input
-              type="email"
-              name="bcatFacilitatorEmail"
-              placeholder="Email"
-              required
-              className="px-3 py-1.5 w-full border rounded-lg outline-none mt-1 border-gray-300"
-            />
-          </>
-        )}
+        <h2>BCAT Facilitator</h2>
+        <input
+          type="email"
+          name="bcatFacilitatorEmail"
+          placeholder="Email"
+          required
+          className="px-3 py-1.5 w-full border rounded-lg outline-none mt-1 border-gray-300"
+        />
+
         <div className="flex flex-col gap-2 mt-2">
           <h3>
             Logo <span className="text-gray-400">(optional)</span>
