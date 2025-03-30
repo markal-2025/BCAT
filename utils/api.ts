@@ -9,6 +9,6 @@ export default axios.create({
   baseURL:
     import.meta.env.VITE_ENVIRONMENT == "local"
       ? "http://localhost:3500"
-      : "https://bcat-server-ten.vercel.app/",
+      : "https://management.getbcat.com/",
   withCredentials: true,
 });
