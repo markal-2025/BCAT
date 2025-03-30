@@ -21,7 +21,6 @@ const PDFExportButton = ({
   organization: Organization;
   traitWordings: any[]; // Add this type
 }) => {
-  console.log(organization);
   const [isGenerating, setIsGenerating] = useState(false);
 
   const handleExportPDF = async () => {
@@ -139,11 +138,9 @@ const generatePDFReport = async (data: any) => {
     // Set some initial variables
     let yPosition = 15;
     const pageWidth = pdf.internal.pageSize.getWidth();
-    console.log(organization, "from pdf");
     // Add organization logo if available
     if (organization?.logo) {
       try {
-        console.log("from pdf", organization.logo);
         // Create a canvas to manipulate the image
         const img = new Image();
         img.crossOrigin = "anonymous";

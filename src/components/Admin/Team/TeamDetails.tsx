@@ -13,6 +13,7 @@ import { ClipLoader } from "react-spinners";
 import RoleTargetDialog from "./RoleTarget";
 import { MoreVert } from "@mui/icons-material";
 import { z } from "zod"; // Add Zod import
+import { toast } from "react-toastify";
 
 // Define the validation schema
 const userSchema = z.object({
@@ -94,7 +95,6 @@ const TeamDetails = () => {
         const res = await api.get(
           `/api/v1/team/getTeamSurvey?teamId=${teamId}`
         );
-        console.log(res);
         setCurrentSurvey(res.data);
       };
       getSurvey();
@@ -129,8 +129,6 @@ const TeamDetails = () => {
       };
     }
   }, [openActionMenu]); // Add openActionMenu as a dependency
-
-  console.log(team);
 
   const handleEdit = (member: Member) => {
     setEditingMemberId(member.id);
@@ -268,7 +266,7 @@ const TeamDetails = () => {
         };
       });
     } catch (error) {
-      console.log(error);
+      toast.error("Failed to delete user from team");
     }
   };
 
@@ -335,7 +333,6 @@ const TeamDetails = () => {
       });
       setLoading(false);
       setUserDialog(false);
-      console.log(res);
 
       // Construct a clear message about the results
       let successMessage = "Users have been added to the team.";
@@ -408,7 +405,6 @@ const TeamDetails = () => {
         icon: "success",
       });
     } catch (error: any) {
-      console.log(error);
       Swal.fire({
         title: "Error!",
         text: error.response.data.error,

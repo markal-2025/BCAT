@@ -189,7 +189,6 @@ const CreateTeam = ({
     }
   };
   const handleUpdateTeam = (updatedTeam: Team, index: number) => {
-    console.log(updatedTeam);
     const result = z
       .object({
         name: z.string().trim().nonempty(),
@@ -198,7 +197,6 @@ const CreateTeam = ({
         mission: z.string().trim().nonempty(),
       })
       .safeParse(updatedTeam);
-    console.log(result);
     if (!result.success) {
       toast.error("Team data cannot be empty Check all required fields", {
         position: "top-center",

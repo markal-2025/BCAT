@@ -27,8 +27,6 @@ const ManageOrganization = ({ inititate }: { inititate?: boolean }) => {
       try {
         const response = await api.get("/api/v1/org/getOrganizations");
         setOrganizations(response.data.organizations);
-      } catch (error) {
-        console.log(error);
       } finally {
         setLoading(false);
       }
@@ -63,7 +61,7 @@ const ManageOrganization = ({ inititate }: { inititate?: boolean }) => {
         setOrganizations(organizations.filter((o) => o.id !== org.id));
         Swal.fire("Deleted!", "Your Organization has been deleted.", "success");
       } catch (error) {
-        console.log(error);
+        Swal.fire("Error!", "Your Organization has not been deleted.", "error");
       }
     }
   };

@@ -17,7 +17,6 @@ const UserPromisesResults = () => {
   const { promiseResultId } = useParams();
   const [loading, setLoading] = useState(true);
   const [promiseResult, setPromiseResult] = useState<any>(null);
-  console.log(promiseResultId);
   useEffect(() => {
     const fetchPromiseResult = async () => {
       setLoading(true);
@@ -25,7 +24,6 @@ const UserPromisesResults = () => {
         const { data } = await api.get(
           `/api/v1/survey/getUserPromiseResponse?promiseSessionId=${promiseResultId}`
         );
-        console.log(data);
         setPromiseResult(data[0]);
       } catch (error) {
         console.error("Failed to fetch promise result:", error);

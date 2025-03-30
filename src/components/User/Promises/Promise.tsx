@@ -64,7 +64,6 @@ const Promise = () => {
         );
         setPromiseData(res.data);
       } catch (error) {
-        console.log(error);
         navigate("/"); // Redirect on error
       } finally {
         setLoading(false);

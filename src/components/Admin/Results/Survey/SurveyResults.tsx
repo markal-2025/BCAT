@@ -11,6 +11,7 @@ import PDFExportButton from "./PDFExportButton";
 import ConsonanceBarChart from "./charts/ConsonanceBarChart";
 import ResonanceBarChart from "./charts/ResonanceBarChart";
 import { Organization, useAuth } from "../../../../contexts/Auth";
+import { toast } from "react-toastify";
 // Import other components and types as in your original file
 export type CompositeResult = {
   id: number;
@@ -219,7 +220,7 @@ const SurveyResults = () => {
             }
           }
         } catch (error) {
-          console.log("Could not fetch team info:", error);
+          toast.error("Failed to fetch team info");
         }
 
         // Get user results - this might throw 400 if not enough submissions
@@ -241,7 +242,6 @@ const SurveyResults = () => {
 
         setNotEnoughSubmissions(false);
       } catch (error: any) {
-        console.log("Error fetching survey data:", error);
         if (error.response && error.response.status === 400) {
           setNotEnoughSubmissions(true);
         }

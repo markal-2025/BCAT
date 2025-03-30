@@ -209,7 +209,6 @@ const OrganizationDetails = ({ initiate }: { initiate?: boolean }) => {
         await api.delete(`/api/v1/org/deleteOrganization?id=${org.id}`);
         Swal.fire("Deleted!", "Your Organization has been deleted.", "success");
       } catch (error) {
-        console.log(error);
         toast.error("Failed to delete organization");
       }
     }

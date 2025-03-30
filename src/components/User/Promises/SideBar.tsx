@@ -33,16 +33,13 @@ import { toast } from "react-toastify";
  */
 const UserSideBar = () => {
   const { myTeams } = useAuth();
-  const { promisesResults, fetchPromisesResults } = useSurvey();
-  console.log(myTeams);
+  const { fetchPromisesResults } = useSurvey();
   // State to track which sections are expanded/collapsed
   const [openSections, setOpenSections] = useState({
     promises: false,
     surveys: false,
     teams: false,
   });
-
-  console.log(promisesResults);
 
   // State to store fetched promises and surveys
   const [promises, setPromises] = useState([]);
@@ -80,10 +77,8 @@ const UserSideBar = () => {
       try {
         const res = await api.get("/api/v1/survey/getSurvey");
         setSurveys(res.data);
-        console.log(res);
       } catch (error) {
         toast.error("Error fetching surveys");
-        console.log(error);
       }
     };
 

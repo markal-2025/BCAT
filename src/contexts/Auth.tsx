@@ -184,7 +184,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setUser(data);
         }
       } catch (error) {
-        console.log("error", error);
+        toast.error("Failed to fetch user");
       } finally {
         setFetched(true);
       }
@@ -194,7 +194,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const response = await api.get("/api/v1/questions/getTraitsWording");
         setTraitWordings(response.data);
       } catch (error) {
-        console.log(error);
+        toast.error("Failed to fetch trait wordings");
       }
     };
 
@@ -206,13 +206,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
    * Fetches teams associated with the current user
    */
   const getMyTeams = async () => {
-    console.log("test");
     try {
       const response = await api.get("/api/v1/team/getMyTeams");
       setMyTeams(response.data);
       // setMyTeams(response.data.teams);
     } catch (error) {
-      console.log(error);
+      toast.error("Failed to fetch teams");
     }
   };
 
@@ -261,7 +260,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       );
       setUser(undefined);
     } catch (error) {
-      console.log(error);
+      toast.error("Failed to logout");
     }
   };
 
@@ -271,7 +270,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
    */
   const login = async (email: string, password: string) => {
     try {
-      console.log(email, password);
       const { data } = await api.post(
         "/api/v1/auth/login",
         { email, password },
@@ -282,7 +280,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(data);
       notifyLogin("Welcome " + data.username);
     } catch (error: any) {
-      console.log(error);
       notifyError(error.response.data.error);
     }
   };
@@ -307,10 +304,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         `/api/v1/survey/organizationPromises?organizationId=${id}`
       );
       setPromiseStats(latestPromises.data.result);
-      console.log(latestPromises.data.promisesResults);
       setAcceptedPromises(latestPromises.data.promisesResults);
     } catch (error) {
-      console.log(error);
       setCurrentOrganizationNotFound(true);
     } finally {
       setFetchedOrg(true);
@@ -323,15 +318,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
    */
   const handleDeleteTeam = async (id: number) => {
     try {
-      const response = await api.delete("/api/v1/team/deleteTeam?teamId=" + id);
+      await api.delete("/api/v1/team/deleteTeam?teamId=" + id);
       setCurrenOrganization((prev: OrganizationData) => ({
         ...prev,
         teams: prev.teams.filter((team: Team) => team.id !== id),
       }));
-      console.log(response);
-      console.log(response);
     } catch (error) {
-      console.log(error);
+      toast.error("Failed to delete team");
     }
   };
 
@@ -339,7 +332,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const response = await api.get(
       `/api/v1/survey/getAllTeamPromises?teamId=${teamId}`
     );
-    console.log(response);
     setPromises(response.data.sortedPromises);
   };
 
