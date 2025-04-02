@@ -12,7 +12,7 @@
  */
 
 import { Route, Routes, Navigate, Outlet } from "react-router-dom";
-import { lazy } from "react";
+import { lazy, useEffect } from "react";
 import { SurveyProvider } from "../contexts/Survey";
 
 // Lazy load components to improve initial page load performance
@@ -65,8 +65,11 @@ const TeamPromises = lazy(
  * All routes use a consistent Layout component that includes a sidebar and content area.
  */
 const PrivateRoutes = () => {
-  const { user } = useAuth();
+  const { user, getMyTeams } = useAuth();
 
+  useEffect(() => {
+    getMyTeams();
+  }, []);
   return (
     <Routes>
       {/* ADMIN ROUTES - Only accessible to users with the admin role */}
@@ -346,7 +349,7 @@ const PrivateRoutes = () => {
 
       {/* Survey Routes - Uses SurveyProvider context to manage survey state */}
       <Route
-        path="/survey/:surveyId"
+        path="/survey/:surveyId/team/:teamId"
         element={
           <SurveyProvider>
             <SurveyHome />{" "}

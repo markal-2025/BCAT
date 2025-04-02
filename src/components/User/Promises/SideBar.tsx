@@ -189,7 +189,7 @@ const UserSideBar = () => {
                 <Link
                   key={survey.id}
                   className="w-full"
-                  to={`/survey/${survey.id}`}
+                  to={`/survey/${survey.id}/team/${survey.teamId}`}
                 >
                   <ListItemButton className="pl-8 rounded-md hover:bg-gray-100">
                     <ListItemText primary={survey.team.name} />

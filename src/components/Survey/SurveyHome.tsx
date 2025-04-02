@@ -32,7 +32,7 @@ import DesiredSkills from "./DesiredSkills";
 import { useSurvey } from "../../contexts/Survey";
 import { ClipLoader } from "react-spinners";
 import Logout from "../../icons/Logout";
-
+import { useParams } from "react-router-dom";
 /**
  * Survey steps configuration defining the structure of the survey process
  */
@@ -59,12 +59,13 @@ const steps = [
  */
 const SurveyHome = () => {
   const [activeStep, setActiveStep] = useState(0); // Current survey step
-  const { logout, user } = useAuth(); // Auth context for user info
+  const { logout, user, myTeams } = useAuth(); // Auth context for user info
   const [popup, setPopup] = useState(true); // Controls visibility of popup
   const { loading, error } = useSurvey(); // Survey loading and error states
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Detect mobile screens
   const [personalDetails, setPersonalDetails] = useState(false); // Controls visibility of personal details form
+  const { teamId } = useParams();
   /**
    * Navigation functions to move between survey steps
    */
@@ -246,6 +247,12 @@ const SurveyHome = () => {
                       className="w-full p-2 mt-2 border rounded-lg border-Turquoise "
                       aria-label="minimum height"
                       minRows={3}
+                      disabled
+                      value={
+                        myTeams.find(
+                          (team) => team.teams.id === parseInt(teamId || "0")
+                        )?.teams.name
+                      }
                       placeholder="Briefly describe your Team"
                     />
                   </div>
