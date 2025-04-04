@@ -104,7 +104,6 @@ const DesiredSkills = ({ handlePrev }: { handlePrev: () => void }) => {
           )}
 
           {/* Skills rating table */}
-          {/* Skills rating section with sticky headers and visible scrollbar */}
           {!loading && (
             <div className="flex flex-col h-[calc(100vh-120px)]">
               {/* Sticky header */}
@@ -117,36 +116,10 @@ const DesiredSkills = ({ handlePrev }: { handlePrev: () => void }) => {
                 <div className="p-2 font-bold text-center">Not Important</div>
               </div>
 
-              {/* Scrollable skills container with visible scrollbar */}
-              <div
-                className="flex-grow overflow-auto"
-                style={{
-                  scrollbarWidth: "thin",
-                  scrollbarColor: "#0091AB #f1f1f1",
-                  WebkitOverflowScrolling: "touch",
-                }}
-              >
-                {/* Custom scrollbar styles for WebKit browsers */}
-                <style>{`
-                  div::-webkit-scrollbar {
-                    width: 8px;
-                    height: 8px;
-                    display: block;
-                  }
-                  div::-webkit-scrollbar-track {
-                    background: #f1f1f1;
-                    border-radius: 4px;
-                  }
-                  div::-webkit-scrollbar-thumb {
-                    background: #0091ab;
-                    border-radius: 4px;
-                  }
-                  div::-webkit-scrollbar-thumb:hover {
-                    background: #007a8f;
-                  }
-                `}</style>
-
+              {/* Scrollable skills container */}
+              <div className="flex-grow overflow-auto">
                 {skills.map((skill) => {
+                  // Find if this skill has been rated already
                   const selectedSkill = selectedSkills.find(
                     (ss) => ss.desiredSkillId === skill.skillId
                   );
