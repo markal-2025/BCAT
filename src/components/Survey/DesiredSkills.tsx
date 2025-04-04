@@ -130,46 +130,57 @@ const DesiredSkills = ({ handlePrev }: { handlePrev: () => void }) => {
 
                         {/* "Very Important" option */}
                         <td className="p-2 text-center">
-                          <input
-                            type="radio"
-                            name={`skill-${skill.skillId}`}
-                            value="veryImportant"
-                            className="scale-125"
-                            checked={
-                              selectedSkill?.response === "veryImportant"
-                            }
-                            onChange={() =>
-                              handleRadioChange(skill.skillId, "veryImportant")
-                            }
-                          />
+                          <label className="block w-full py-2 cursor-pointer">
+                            <input
+                              type="radio"
+                              name={`skill-${skill.skillId}`}
+                              value="veryImportant"
+                              className="scale-125"
+                              checked={
+                                selectedSkill?.response === "veryImportant"
+                              }
+                              onChange={() =>
+                                handleRadioChange(
+                                  skill.skillId,
+                                  "veryImportant"
+                                )
+                              }
+                            />
+                          </label>
                         </td>
 
                         {/* "Somewhat Important" option */}
                         <td className="p-2 text-center">
-                          <input
-                            type="radio"
-                            className="scale-125"
-                            name={`skill-${skill.skillId}`}
-                            value="someWhat"
-                            checked={selectedSkill?.response === "someWhat"}
-                            onChange={() =>
-                              handleRadioChange(skill.skillId, "someWhat")
-                            }
-                          />
+                          <label className="block w-full py-2 cursor-pointer">
+                            <input
+                              type="radio"
+                              className="scale-125"
+                              name={`skill-${skill.skillId}`}
+                              value="someWhat"
+                              checked={selectedSkill?.response === "someWhat"}
+                              onChange={() =>
+                                handleRadioChange(skill.skillId, "someWhat")
+                              }
+                            />
+                          </label>
                         </td>
 
                         {/* "Not Important" option */}
                         <td className="p-2 text-center">
-                          <input
-                            type="radio"
-                            className="scale-125"
-                            name={`skill-${skill.skillId}`}
-                            value="notImportant"
-                            checked={selectedSkill?.response === "notImportant"}
-                            onChange={() =>
-                              handleRadioChange(skill.skillId, "notImportant")
-                            }
-                          />
+                          <label className="block w-full py-2 cursor-pointer">
+                            <input
+                              type="radio"
+                              className="scale-125"
+                              name={`skill-${skill.skillId}`}
+                              value="notImportant"
+                              checked={
+                                selectedSkill?.response === "notImportant"
+                              }
+                              onChange={() =>
+                                handleRadioChange(skill.skillId, "notImportant")
+                              }
+                            />
+                          </label>
                         </td>
                       </tr>
                     );
