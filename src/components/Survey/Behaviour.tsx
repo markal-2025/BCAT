@@ -170,44 +170,52 @@ const Behaviour = ({
 
                         {/* "Favorable" option */}
                         <td className="p-2 text-center">
-                          <input
-                            type="radio"
-                            name={`trait-${trait.traitId}`}
-                            value="favorable"
-                            className="scale-125"
-                            checked={selectedTrait?.response === "favorable"}
-                            onChange={() =>
-                              handleRadioChange(trait.traitId, "favorable")
-                            }
-                          />
+                          <label className="block w-full py-2 cursor-pointer">
+                            <input
+                              type="radio"
+                              name={`trait-${trait.traitId}`}
+                              value="favorable"
+                              className="scale-125"
+                              checked={selectedTrait?.response === "favorable"}
+                              onChange={() =>
+                                handleRadioChange(trait.traitId, "favorable")
+                              }
+                            />
+                          </label>
                         </td>
 
                         {/* "No Opinion" option */}
                         <td className="p-2 text-center">
-                          <input
-                            type="radio"
-                            className="scale-125"
-                            name={`trait-${trait.traitId}`}
-                            value="no opinion"
-                            checked={selectedTrait?.response === "no opinion"}
-                            onChange={() =>
-                              handleRadioChange(trait.traitId, "no opinion")
-                            }
-                          />
+                          <label className="block w-full py-2 cursor-pointer">
+                            <input
+                              type="radio"
+                              className="scale-125"
+                              name={`trait-${trait.traitId}`}
+                              value="no opinion"
+                              checked={selectedTrait?.response === "no opinion"}
+                              onChange={() =>
+                                handleRadioChange(trait.traitId, "no opinion")
+                              }
+                            />
+                          </label>
                         </td>
 
                         {/* "Unfavorable" option */}
                         <td className="p-2 text-center">
-                          <input
-                            type="radio"
-                            className="scale-125"
-                            name={`trait-${trait.traitId}`}
-                            value="unfavorable"
-                            checked={selectedTrait?.response === "unfavorable"}
-                            onChange={() =>
-                              handleRadioChange(trait.traitId, "unfavorable")
-                            }
-                          />
+                          <label className="block w-full py-2 cursor-pointer">
+                            <input
+                              type="radio"
+                              className="scale-125"
+                              name={`trait-${trait.traitId}`}
+                              value="unfavorable"
+                              checked={
+                                selectedTrait?.response === "unfavorable"
+                              }
+                              onChange={() =>
+                                handleRadioChange(trait.traitId, "unfavorable")
+                              }
+                            />
+                          </label>
                         </td>
                       </tr>
                     );
