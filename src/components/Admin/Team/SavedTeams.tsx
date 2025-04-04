@@ -135,6 +135,19 @@ const SavedTeams: React.FC<SavedTeamsProps> = ({
       {/* Collapsible team details */}
       <Collapse in={isOpen} timeout="auto" unmountOnExit className="ml-4">
         <div className="flex flex-col w-full pb-4">
+          <div className="flex flex-col pb-5 mt-4 ">
+            <label htmlFor="" className="text-sm">
+              Department name
+            </label>
+            <input
+              name="departmentName"
+              type="text"
+              required
+              value={editedTeam.departmentName}
+              onChange={(e) => handleChange("departmentName", e.target.value)}
+              className="px-3 py-1.5 border rounded-lg outline-none mt-1 border-gray-300"
+            />
+          </div>
           {/* Team name and community section */}
           <div className="flex items-center w-full gap-4 mt-4">
             <div className="flex flex-col w-1/2">
