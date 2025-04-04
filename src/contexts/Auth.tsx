@@ -63,6 +63,7 @@ export interface Team {
   name: string;
   community: string;
   teamDescription: string;
+  departmentName: string;
   mission: string;
   members: Member[];
   createdAt: string;
