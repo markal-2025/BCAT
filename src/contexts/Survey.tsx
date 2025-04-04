@@ -197,6 +197,8 @@ export const SurveyProvider = ({ children }: { children: ReactNode }) => {
       console.error("Failed to submit survey:", error);
     } finally {
       setSubmitLoading(false);
+      setSelectedTraits([]);
+      setSelectedSkills([]);
     }
   };
 

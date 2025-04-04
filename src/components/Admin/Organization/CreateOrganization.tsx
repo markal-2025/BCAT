@@ -26,6 +26,7 @@ import {
   validateFormFields,
 } from "../../../helpers/validateFormFields";
 import CreateTeam from "../Team/CreateTeam";
+import { useAuth } from "../../../contexts/Auth";
 /**
  * Interface representing a team member
  */
@@ -54,6 +55,8 @@ const CreateOrganization = () => {
   // Navigation hook
   const navigate = useNavigate();
 
+  const { user } = useAuth();
+
   // Loading state
   const [isLoading, setIsLoading] = useState(false);
 
@@ -80,7 +83,6 @@ const CreateOrganization = () => {
       "contactFirstName",
       "contactLastName",
       "contactEmail",
-      "bcatFacilitatorEmail",
     ];
 
     // Validate all required fields
@@ -270,28 +272,30 @@ const CreateOrganization = () => {
       </div>
 
       {/* BCAT Facilitator and logo section */}
-      <div className="flex flex-col gap-2 py-6 border-t border-gray-300">
-        <h2>BCAT Facilitator</h2>
-        <input
-          type="email"
-          name="bcatFacilitatorEmail"
-          placeholder="Email"
-          required
-          className="px-3 py-1.5 w-full border rounded-lg outline-none mt-1 border-gray-300"
-        />
-
-        <div className="flex flex-col gap-2 mt-2">
-          <h3>
-            Logo <span className="text-gray-400">(optional)</span>
-          </h3>
+      {user && (
+        <div className="flex flex-col gap-2 py-6 border-t border-gray-300">
+          <h2>BCAT Facilitator</h2>
           <input
-            type="file"
-            name="image"
-            placeholder="Logo"
+            type="email"
+            name="bcatFacilitatorEmail"
+            placeholder="Email"
+            required={user ? true : false}
             className="px-3 py-1.5 w-full border rounded-lg outline-none mt-1 border-gray-300"
           />
+
+          <div className="flex flex-col gap-2 mt-2">
+            <h3>
+              Logo <span className="text-gray-400">(optional)</span>
+            </h3>
+            <input
+              type="file"
+              name="image"
+              placeholder="Logo"
+              className="px-3 py-1.5 w-full border rounded-lg outline-none mt-1 border-gray-300"
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Submit button */}
       <button type="submit" className="!w-full btn-primary">
