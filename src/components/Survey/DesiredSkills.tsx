@@ -105,31 +105,37 @@ const DesiredSkills = ({ handlePrev }: { handlePrev: () => void }) => {
 
           {/* Skills rating table */}
           {!loading && (
-            <div className="overflow-auto">
-              <table className="w-full table-auto">
-                <thead>
-                  <tr>
-                    <th className="p-2 text-left">Skill</th>
-                    <th className="p-2 text-center">Very Important</th>
-                    <th className="p-2 text-center">Somewhat Important</th>
-                    <th className="p-2 text-center">Not Important</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {skills.map((skill) => {
-                    // Find if this skill has been rated already
-                    const selectedSkill = selectedSkills.find(
-                      (ss) => ss.desiredSkillId === skill.skillId
-                    );
-                    return (
-                      <tr key={skill.skillId} className="border-t">
-                        {/* Skill name */}
-                        <td className="p-2">
-                          {capitalizeFirstLetter(skill.skillName)}
-                        </td>
+            <div className="flex flex-col h-[calc(100vh-120px)]">
+              {/* Sticky header */}
+              <div className="sticky top-0 z-10 grid grid-cols-4 bg-white border-b shadow-sm">
+                <div className="p-2 font-bold text-left">Skill</div>
+                <div className="p-2 font-bold text-center">Very Important</div>
+                <div className="p-2 font-bold text-center">
+                  Somewhat Important
+                </div>
+                <div className="p-2 font-bold text-center">Not Important</div>
+              </div>
 
-                        {/* "Very Important" option */}
-                        <td className="p-2 text-center">
+              {/* Scrollable skills container */}
+              <div className="flex-grow overflow-auto">
+                {skills.map((skill) => {
+                  // Find if this skill has been rated already
+                  const selectedSkill = selectedSkills.find(
+                    (ss) => ss.desiredSkillId === skill.skillId
+                  );
+                  return (
+                    <div
+                      key={skill.skillId}
+                      className="grid grid-cols-4 border-b"
+                    >
+                      {/* Skill name */}
+                      <div className="p-2">
+                        {capitalizeFirstLetter(skill.skillName)}
+                      </div>
+
+                      {/* "Very Important" option */}
+                      <div className="p-2 text-center">
+                        <label className="block w-full py-2 cursor-pointer">
                           <input
                             type="radio"
                             name={`skill-${skill.skillId}`}
@@ -142,10 +148,12 @@ const DesiredSkills = ({ handlePrev }: { handlePrev: () => void }) => {
                               handleRadioChange(skill.skillId, "veryImportant")
                             }
                           />
-                        </td>
+                        </label>
+                      </div>
 
-                        {/* "Somewhat Important" option */}
-                        <td className="p-2 text-center">
+                      {/* "Somewhat Important" option */}
+                      <div className="p-2 text-center">
+                        <label className="block w-full py-2 cursor-pointer">
                           <input
                             type="radio"
                             className="scale-125"
@@ -156,10 +164,12 @@ const DesiredSkills = ({ handlePrev }: { handlePrev: () => void }) => {
                               handleRadioChange(skill.skillId, "someWhat")
                             }
                           />
-                        </td>
+                        </label>
+                      </div>
 
-                        {/* "Not Important" option */}
-                        <td className="p-2 text-center">
+                      {/* "Not Important" option */}
+                      <div className="p-2 text-center">
+                        <label className="block w-full py-2 cursor-pointer">
                           <input
                             type="radio"
                             className="scale-125"
@@ -170,15 +180,14 @@ const DesiredSkills = ({ handlePrev }: { handlePrev: () => void }) => {
                               handleRadioChange(skill.skillId, "notImportant")
                             }
                           />
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                        </label>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           )}
-
           {/* Navigation buttons */}
           <div className="flex justify-between mt-6">
             {/* Back button */}
