@@ -7,7 +7,7 @@
  * information before submitting the organization for creation.
  *
  * Key features:
- * - Organization details input (name, department)
+ * - Organization details input (name)
  * - Team creation with name, community, description, and mission
  * - Member management with individual and bulk addition
  * - Sponsor and contact information collection
@@ -42,6 +42,7 @@ export interface Team {
   name: string;
   community: string;
   teamDescription: string;
+  departmentName: string;
   mission: string;
   members: Member[];
 }
@@ -73,7 +74,6 @@ const CreateOrganization = () => {
     // Define fields to validate
     const requiredFields = [
       "organizationName",
-      "departmentName",
       "sponsorFirstName",
       "sponsorLastName",
       "sponsorEmail",
@@ -142,6 +142,7 @@ const CreateOrganization = () => {
           teamName: team.name,
           teamCommunity: team.community,
           teamDescription: team.teamDescription,
+          departmentName: team.departmentName,
           teamMission: team.mission,
           teamMembers: team.members,
         };
@@ -206,18 +207,6 @@ const CreateOrganization = () => {
         />
       </div>
 
-      {/* Department section */}
-      <div className="flex flex-col pb-5 mt-4 border-b border-gray-300">
-        <label htmlFor="" className="text-sm">
-          Department name
-        </label>
-        <input
-          name="departmentName"
-          type="text"
-          required
-          className="px-3 py-1.5 border rounded-lg outline-none mt-1 border-gray-300"
-        />
-      </div>
       {/* CreateTeam component for team creation */}
       <CreateTeam savedTeams={savedTeams} setSavedTeams={setSavedTeams} />
       {/* Sponsor information section */}

@@ -34,6 +34,7 @@ const CreateTeam = ({
       // Define fields to validate
       const requiredFields = [
         "teamName",
+        "departmentName",
         "teamCommunity",
         "teamDescription",
         "teamMission",
@@ -71,15 +72,16 @@ const CreateTeam = ({
       const teamCommunity = formData.get("teamCommunity")?.toString() || "";
       const teamDescription = formData.get("teamDescription")?.toString() || "";
       const teamMission = formData.get("teamMission")?.toString() || "";
-
+      const teamDepartment = formData.get("departmentName")?.toString() || "";
       const newTeam: Team = {
         name: teamName,
         community: teamCommunity,
         teamDescription: teamDescription,
         mission: teamMission,
+        departmentName: teamDepartment,
         members: currentMembers,
       };
-
+      console.log(newTeam);
       setSavedTeams((prev: any) => [...prev, newTeam]);
       setCurrentMembers([]);
       form.reset();
@@ -194,6 +196,7 @@ const CreateTeam = ({
         name: z.string().trim().nonempty(),
         community: z.string().trim().nonempty(),
         teamDescription: z.string().trim().nonempty(),
+        departmentName: z.string().trim().nonempty(),
         mission: z.string().trim().nonempty(),
       })
       .safeParse(updatedTeam);
@@ -231,22 +234,24 @@ const CreateTeam = ({
       {/* Teams section */}
       <div className="flex flex-col w-full pb-4 mt-4">
         <h1 className="my-4 font-medium">Teams</h1>
-        <div className="w-full">
-          <List className="flex-grow w-full !font-medium">
-            {savedTeams?.map((team, index) => (
-              <SavedTeams
-                key={index}
-                team={team}
-                isOpen={!!openSections[team.name]}
-                handleToggle={handleToggle}
-                onUpdateTeam={(updatedTeam) =>
-                  handleUpdateTeam(updatedTeam, index)
-                }
-                onDeleteTeam={() => handleDeleteTeam(index)}
-              />
-            ))}
-          </List>
-        </div>
+        {savedTeams.length > 0 && (
+          <div className="w-full">
+            <List className="flex-grow w-full !font-medium">
+              {savedTeams?.map((team, index) => (
+                <SavedTeams
+                  key={index}
+                  team={team}
+                  isOpen={!!openSections[team.name]}
+                  handleToggle={handleToggle}
+                  onUpdateTeam={(updatedTeam) =>
+                    handleUpdateTeam(updatedTeam, index)
+                  }
+                  onDeleteTeam={() => handleDeleteTeam(index)}
+                />
+              ))}
+            </List>
+          </div>
+        )}
         {(savedTeams.length == 0 || openForm) && (
           <>
             <CreateTeamForm

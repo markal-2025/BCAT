@@ -147,6 +147,18 @@ const CreateTeamForm: React.FC<CreateTeamFormProps> = ({
 
   return (
     <form className="w-full mt-4" ref={createTeamForm}>
+      {/* Department section */}
+      <div className="flex flex-col pb-5">
+        <label htmlFor="" className="text-sm">
+          Department name
+        </label>
+        <input
+          name="departmentName"
+          type="text"
+          required
+          className="px-3 py-1.5 border rounded-lg outline-none mt-1 border-gray-300"
+        />
+      </div>
       {/* Team basic information section */}
       <div className="flex items-center w-full gap-4">
         <div className="flex flex-col w-1/2">
