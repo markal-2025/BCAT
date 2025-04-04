@@ -23,7 +23,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Next from "../../icons/Next";
 import Logo from "../../imgs/BCAT_Logo_Final.svg";
 import { useAuth } from "../../contexts/Auth";
@@ -32,7 +32,9 @@ import DesiredSkills from "./DesiredSkills";
 import { useSurvey } from "../../contexts/Survey";
 import { ClipLoader } from "react-spinners";
 import Logout from "../../icons/Logout";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import api from "../../../utils/api";
+import { toast } from "react-toastify";
 /**
  * Survey steps configuration defining the structure of the survey process
  */
@@ -65,7 +67,9 @@ const SurveyHome = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Detect mobile screens
   const [personalDetails, setPersonalDetails] = useState(false); // Controls visibility of personal details form
-  const { teamId } = useParams();
+  const { teamId, surveyId } = useParams();
+  const [surveyChecked, setSurveyChecked] = useState(false);
+  const navigate = useNavigate();
   /**
    * Navigation functions to move between survey steps
    */
@@ -83,8 +87,25 @@ const SurveyHome = () => {
   const handleLogout = async () => {
     await logout();
   };
+  useEffect(() => {
+    const checkSurvey = async () => {
+      if (surveyChecked) return; // Prevent multiple checks
+      try {
+        await api.get(`/api/v1/survey/checkSurvey?surveyId=${surveyId}`);
+        setSurveyChecked(true);
+      } catch (error) {
+        if (error instanceof Error) {
+          toast.error(
+            "Survey not found. Please ensure you are using the correct link."
+          );
+        }
+        navigate("/");
+      }
+    };
+    checkSurvey();
+  }, []);
 
-  return (
+  return surveyChecked ? (
     <div className="flex flex-col w-full min-h-screen p-0 overflow-hidden md:p-4 font-Titles">
       <div className="flex flex-col justify-start flex-grow w-full md:flex-row">
         {/* Left sidebar with logo, title and stepper */}
@@ -178,7 +199,7 @@ const SurveyHome = () => {
                 <div className="flex flex-col items-center justify-between md:flex-row">
                   <p className="text-sm text-gray-400">
                     Brand and Culture Alignment Toolkit and the BCAT logo are
-                    registered trademarks of CMC of NJ.
+                    registered trademarks .
                   </p>
                   <div className="flex justify-end w-full">
                     <button
@@ -286,7 +307,7 @@ const SurveyHome = () => {
               <div className="flex flex-col items-center justify-between p-4 mt-auto md:flex-row">
                 <p className="text-sm text-gray-400">
                   Brand and Culture Alignment Toolkit and the BCAT logo are
-                  registered trademarks of CMC of NJ.
+                  registered trademarks.
                 </p>
                 <div className="flex justify-end w-full">
                   <button
@@ -324,6 +345,10 @@ const SurveyHome = () => {
           </Box>
         )}
       </div>
+    </div>
+  ) : (
+    <div className="flex items-center justify-center w-full h-screen">
+      <ClipLoader color="#0091AB" />
     </div>
   );
 };
