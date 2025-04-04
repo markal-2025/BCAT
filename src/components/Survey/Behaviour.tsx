@@ -145,34 +145,31 @@ const Behaviour = ({
 
           {/* Traits rating table */}
           {!loading && (
-            <div className="flex flex-col h-[calc(100vh-120px)]">
-              {/* Sticky header */}
-              <div className="sticky top-0 z-10 grid grid-cols-4 bg-white border-b shadow-sm">
-                <div className="p-2 font-bold text-left">Trait</div>
-                <div className="p-2 font-bold text-center">Favorable</div>
-                <div className="p-2 font-bold text-center">No Opinion</div>
-                <div className="p-2 font-bold text-center">Unfavorable</div>
-              </div>
+            <div className="overflow-auto">
+              <table className="w-full table-auto">
+                <thead>
+                  <tr>
+                    <th className="p-2 text-left">Trait</th>
+                    <th className="p-2 text-center">Favorable</th>
+                    <th className="p-2 text-center">No Opinion</th>
+                    <th className="p-2 text-center">Unfavorable</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {paginatedTraits.map((trait) => {
+                    // Find if this trait has been rated already
+                    const selectedTrait = selectedTraits.find(
+                      (st) => st.traitId === trait.traitId
+                    );
+                    return (
+                      <tr key={trait.traitId} className="border-t">
+                        {/* Trait name */}
+                        <td className="p-2">
+                          {capitalizeFirstLetter(trait.traitName)}
+                        </td>
 
-              {/* Scrollable trait rows container */}
-              <div className="flex-grow overflow-auto">
-                {paginatedTraits.map((trait) => {
-                  const selectedTrait = selectedTraits.find(
-                    (st) => st.traitId === trait.traitId
-                  );
-                  return (
-                    <div
-                      key={trait.traitId}
-                      className="grid grid-cols-4 border-b"
-                    >
-                      {/* Trait name */}
-                      <div className="p-2">
-                        {capitalizeFirstLetter(trait.traitName)}
-                      </div>
-
-                      {/* "Favorable" option */}
-                      <div className="p-2 text-center">
-                        <label className="block w-full py-2 cursor-pointer">
+                        {/* "Favorable" option */}
+                        <td className="p-2 text-center">
                           <input
                             type="radio"
                             name={`trait-${trait.traitId}`}
@@ -183,12 +180,10 @@ const Behaviour = ({
                               handleRadioChange(trait.traitId, "favorable")
                             }
                           />
-                        </label>
-                      </div>
+                        </td>
 
-                      {/* "No Opinion" option */}
-                      <div className="p-2 text-center">
-                        <label className="block w-full py-2 cursor-pointer">
+                        {/* "No Opinion" option */}
+                        <td className="p-2 text-center">
                           <input
                             type="radio"
                             className="scale-125"
@@ -199,12 +194,10 @@ const Behaviour = ({
                               handleRadioChange(trait.traitId, "no opinion")
                             }
                           />
-                        </label>
-                      </div>
+                        </td>
 
-                      {/* "Unfavorable" option */}
-                      <div className="p-2 text-center">
-                        <label className="block w-full py-2 cursor-pointer">
+                        {/* "Unfavorable" option */}
+                        <td className="p-2 text-center">
                           <input
                             type="radio"
                             className="scale-125"
@@ -215,12 +208,12 @@ const Behaviour = ({
                               handleRadioChange(trait.traitId, "unfavorable")
                             }
                           />
-                        </label>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
           )}
 
