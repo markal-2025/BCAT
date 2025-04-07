@@ -654,9 +654,9 @@ const TeamDetails = () => {
             </BootstrapDialog>
           </>
         )}
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col items-center gap-1 md:gap-4 md:flex-row">
           <button
-            className="btn-primary !w-fit mt-6"
+            className="btn-primary !w-full md:!w-fit mt-6"
             onClick={() => setRoleTargetDialog(true)}
           >
             Set Role Target
@@ -665,15 +665,15 @@ const TeamDetails = () => {
             disabled={!currentSurvey}
             className={`${
               currentSurvey
-                ? "btn-primary !w-fit mt-6"
-                : " !bg-gray-300 btn-primary !w-fit mt-6"
+                ? "btn-primary !w-full md:!w-fit md:mt-6 mt-2"
+                : " !bg-gray-300 btn-primary !w-full md:!w-fit mt-6"
             }`}
           >
             <Link to={`/surveyResult/${team.id}/${currentSurvey?.id}`}>
               View Survey Results
             </Link>
           </button>
-          <button className={`btn-primary !w-fit mt-6`}>
+          <button className={`btn-primary !w-full md:!w-fit md:mt-6 mt-2`}>
             <Link to={`/organizations/${id}/teams/${teamId}/promises`}>
               View Promises Results
             </Link>

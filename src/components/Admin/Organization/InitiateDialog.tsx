@@ -89,11 +89,11 @@ const InitiateDialog = ({
           </button>
         </div>
       </BootstrapDialog>
-      <div className="flex items-center justify-end gap-4 mt-4">
+      <div className="flex flex-col items-center justify-end gap-4 mt-4 md:flex-row">
         <button
           onClick={handleOpen}
           disabled={selectedTeams.length == 0}
-          className={`  btn-primary !w-fit ${
+          className={`  btn-primary !w-full md:!w-fit ${
             selectedTeams.length == 0 ? "!bg-gray-300 " : ""
           }`}
         >
@@ -102,7 +102,7 @@ const InitiateDialog = ({
         <button
           onClick={initiateSurvey}
           disabled={selectedTeams.length == 0}
-          className={`  btn-primary !w-fit ${
+          className={`  btn-primary !w-full md:!w-fit ${
             selectedTeams.length == 0 ? "!bg-gray-300 " : ""
           }`}
         >

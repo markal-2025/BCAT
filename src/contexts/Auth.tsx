@@ -171,7 +171,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [acceptedPromises, setAcceptedPromises] = useState<any[]>([]);
   const [promises, setPromises] = useState<any[]>([]);
   const [fetchedOrg, setFetchedOrg] = useState(false);
-
   /**
    * Effect to check user authentication status and fetch trait wordings on component mount
    */
