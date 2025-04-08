@@ -82,10 +82,16 @@ const PromisesResults = () => {
                 className={`hidden col-span-2 text-center md:block ${
                   promise.isAccepted
                     ? "text-green-800 bg-green-100"
+                    : promise.isPassed
+                    ? "text-blue-800 bg-blue-100"
                     : "text-red-800 bg-red-100"
                 }`}
               >
-                {promise.isAccepted ? "Accepted" : "Rejected"}
+                {promise.isAccepted
+                  ? "Accepted"
+                  : promise.isPassed
+                  ? "Passed"
+                  : "Rejected"}
               </div>
             </div>
           ))

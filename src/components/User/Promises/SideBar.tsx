@@ -32,7 +32,7 @@ import { toast } from "react-toastify";
  * - Links to individual promise and survey pages
  */
 const UserSideBar = () => {
-  const { myTeams } = useAuth();
+  const { myTeams, myPromises, getMyPromises } = useAuth();
   const { fetchPromisesResults } = useSurvey();
   // State to track which sections are expanded/collapsed
   const [openSections, setOpenSections] = useState({
@@ -42,7 +42,6 @@ const UserSideBar = () => {
   });
 
   // State to store fetched promises and surveys
-  const [promises, setPromises] = useState([]);
   const [surveys, setSurveys] = useState([]);
 
   /**
@@ -62,17 +61,6 @@ const UserSideBar = () => {
    * - fetchPromisesResults: Fetches promise results from the Survey context
    */
   useEffect(() => {
-    const getPromises = async () => {
-      try {
-        const res = await api.post("/api/v1/survey/getPromise", {
-          teamIds: myTeams.map((item) => item.teams.id),
-        });
-        setPromises(res.data);
-      } catch (error) {
-        toast.error("Error fetching promises");
-      }
-    };
-
     const getSurveys = async () => {
       try {
         const res = await api.get("/api/v1/survey/getSurvey");
@@ -82,9 +70,9 @@ const UserSideBar = () => {
       }
     };
 
-    getPromises();
     getSurveys();
     fetchPromisesResults();
+    getMyPromises();
   }, [myTeams]);
 
   return (
@@ -108,7 +96,7 @@ const UserSideBar = () => {
                 primary={
                   <span className="flex items-center">
                     Promises to make
-                    {promises.length > 0 && (
+                    {myPromises.length > 0 && (
                       <span className="ml-2 text-xs font-bold text-red-500">
                         (New!)
                       </span>
@@ -120,10 +108,10 @@ const UserSideBar = () => {
               {/* Count badge with animation when items exist */}
               <div
                 className={`flex items-center justify-center w-6 h-6 p-1 font-bold text-white rounded-md shadow-md bg-Turquoise ${
-                  promises.length > 0 ? "animate-pulse" : ""
+                  myPromises.length > 0 ? "animate-pulse" : ""
                 }`}
               >
-                {promises.length}
+                {myPromises.length}
               </div>
             </div>
           </ListItemButton>
@@ -136,7 +124,7 @@ const UserSideBar = () => {
             className="ml-4"
           >
             <List component="div" disablePadding>
-              {promises.map((promise: any) => (
+              {myPromises.map((promise: any) => (
                 <Link
                   key={promise.promiseId}
                   className="w-full"

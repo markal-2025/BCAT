@@ -41,7 +41,6 @@ const OrganizationDetails = ({ initiate }: { initiate?: boolean }) => {
     currentOrganizationNotFound,
     setCurrentOrganizationNotFound,
   } = useAuth();
-  console.log(promiseStats);
   // Get auth context safely
   const auth = useAuth();
 
