@@ -114,6 +114,7 @@ export interface PromiseType {
   myPromise: string;
   difference: string;
   isAccepted: boolean;
+  isPassed: boolean;
   createdAt: string;
   updatedAt: string;
   user: User;
@@ -144,6 +145,8 @@ export const AuthContext = createContext<{
   setCurrentOrganizationNotFound: React.Dispatch<any>; // Update organization not found status
   getPromises: (teamId: number) => void; // Fetch promises
   promises: any[]; // Promises
+  getMyPromises: () => void; // Fetch my promises
+  myPromises: any[]; // My promises
 }>(null as any);
 
 /**
@@ -171,6 +174,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [acceptedPromises, setAcceptedPromises] = useState<any[]>([]);
   const [promises, setPromises] = useState<any[]>([]);
   const [fetchedOrg, setFetchedOrg] = useState(false);
+  const [myPromises, setMyPromises] = useState<any[]>([]);
   /**
    * Effect to check user authentication status and fetch trait wordings on component mount
    */
@@ -335,6 +339,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setPromises(response.data.sortedPromises);
   };
 
+  const getMyPromises = async () => {
+    const response = await api.post("/api/v1/survey/getPromise", {
+      teamIds: myTeams.map((item: any) => item.teams.id),
+    });
+    console.log(response);
+    setMyPromises(response.data);
+  };
   // Provide the authentication context to children components
   // Only render children once the initial auth check is complete
   return (
@@ -361,6 +372,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setCurrentOrganizationNotFound,
         getPromises,
         promises,
+        getMyPromises,
+        myPromises,
       }}
     >
       {fetched ? children : null}

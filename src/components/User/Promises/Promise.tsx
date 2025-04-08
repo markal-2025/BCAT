@@ -19,6 +19,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import api from "../../../../utils/api";
 import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
+import { useAuth } from "../../../contexts/Auth";
 
 /**
  * Interface for the promise data structure
@@ -44,18 +45,31 @@ interface PromiseType {
  */
 const Promise = () => {
   const { promiseId } = useParams();
+  const { myTeams } = useAuth();
+
   const [loading, setLoading] = useState(true);
+  const { getMyPromises } = useAuth();
   const [promiseData, setPromiseData] = useState<PromiseType>();
   const [buttonLoading, setButtonLoading] = useState(false);
+  const [passLoading, setPassLoading] = useState(false);
   const [promiseError, setPromiseError] = useState(false);
   const [instructions, setInstructions] = useState([]);
   const navigate = useNavigate();
-
   /**
    * Effect to fetch promise data when the component mounts
    * or when the promiseId changes
    */
   useEffect(() => {
+    const getPromises = async () => {
+      try {
+        await api.post("/api/v1/survey/getPromise", {
+          teamIds: myTeams.map((item) => item.teams.id),
+        });
+      } catch (error) {
+        console.log(error);
+        toast.error("Error fetching promises");
+      }
+    };
     const fetchPromise = async () => {
       if (!loading) setLoading(true);
       try {
@@ -64,13 +78,17 @@ const Promise = () => {
         );
         setPromiseData(res.data);
       } catch (error) {
+        console.log(error);
         navigate("/"); // Redirect on error
       } finally {
         setLoading(false);
       }
     };
-    fetchPromise();
-  }, [promiseId]);
+    if (myTeams.length > 0) {
+      getPromises();
+      fetchPromise();
+    }
+  }, [promiseId, myTeams]);
 
   /**
    * Handles form submission for the promise
@@ -113,12 +131,27 @@ const Promise = () => {
         setPromiseError(false);
         setInstructions([]);
         toast.success("Promise submitted successfully! 🎉");
+        getMyPromises();
         navigate("/");
       }
     } catch (error) {
       console.error("API Error:", error);
     } finally {
       setButtonLoading(false);
+    }
+  };
+
+  const handlePassPromise = async () => {
+    try {
+      setPassLoading(true);
+      await api.put(`/api/v1/survey/passPromise?promiseId=${promiseId}`);
+      toast.success("Promise passed successfully! 🎉");
+      getMyPromises();
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setPassLoading(false);
     }
   };
 
@@ -147,15 +180,30 @@ const Promise = () => {
             <span className="block sm:inline">{instruction}</span>
           </div>
         ))}
-        <button
-          className="btn-primary !w-fit "
-          onClick={() => {
-            setPromiseError(false);
-            setInstructions([]);
-          }}
-        >
-          Re-submit your promise
-        </button>
+        <div className="flex flex-col items-center w-full gap-4 md:flex-row md:w-fit">
+          <button
+            className="btn-primary md:!w-fit !w-full "
+            onClick={() => {
+              setPromiseError(false);
+              setInstructions([]);
+            }}
+          >
+            Re-submit your promise
+          </button>
+          <button
+            className="btn-primary md:!w-fit !w-full "
+            onClick={handlePassPromise}
+            disabled={passLoading}
+          >
+            {passLoading ? (
+              <div className="flex items-center justify-center">
+                <ClipLoader color="white" size={25} />
+              </div>
+            ) : (
+              "Submit Anyways"
+            )}
+          </button>
+        </div>
       </div>
     );
   }
