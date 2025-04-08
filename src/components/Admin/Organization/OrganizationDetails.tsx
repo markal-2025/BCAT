@@ -36,7 +36,6 @@ const OrganizationDetails = ({ initiate }: { initiate?: boolean }) => {
     setCurrenOrganization,
     promiseStats,
     surveyStats,
-    acceptedPromises,
     setAcceptedPromises,
     fetchedOrg,
     currentOrganizationNotFound,
@@ -547,15 +546,7 @@ const OrganizationDetails = ({ initiate }: { initiate?: boolean }) => {
                 )}
               </div>
 
-              <Link
-                to={
-                  acceptedPromises.length > 0
-                    ? `/organizations/${currentOrganization.organization.id}/teams/${team.id}/promises/${acceptedPromises[0].id}`
-                    : ``
-                }
-                className="hidden col-span-1 ml-2 md:block"
-                onClick={(e) => e.stopPropagation()}
-              >
+              <div className="hidden col-span-1 ml-2 md:block">
                 {promiseResult ? (
                   `${
                     promiseResult.total_users - promiseResult.remaining_users
@@ -563,7 +554,7 @@ const OrganizationDetails = ({ initiate }: { initiate?: boolean }) => {
                 ) : (
                   <span className="text-gray-500">No Promise</span>
                 )}
-              </Link>
+              </div>
 
               <div className="hidden col-span-2 text-gray-500 md:block">
                 {new Date(team.createdAt).toLocaleDateString()}
