@@ -20,6 +20,7 @@ import Logo from "../../imgs/BCAT_Logo_Final.svg";
 import { Box } from "@mui/material";
 import Email from "../../icons/Email";
 import Password from "../../icons/Passwrod";
+import { Link } from "react-router-dom";
 
 /**
  * Login component for user authentication
@@ -105,6 +106,12 @@ const Login = () => {
             >
               {loading ? <ClipLoader size={25} color="white" /> : "Login"}
             </button>
+            <Link
+              to={"/reset-password"}
+              className="text-sm text-Turquoise hover:underline"
+            >
+              Forgot your password?
+            </Link>
           </form>
         </Box>
       </div>

@@ -17,6 +17,7 @@ import CreateOrganization from "../components/Admin/Organization/CreateOrganizat
 import SideBar from "../components/Admin/Organization/SideBar";
 import Layout from "../components/Layout/Layout";
 import ResetPassword from "../components/ResetPassword/ResetPassword";
+import RequestResetPassword from "../components/Login/RequestResetPassword";
 // Lazy load Login component to improve initial page load performance
 const Login = lazy(() => import("../components/Login/Login"));
 
@@ -50,6 +51,7 @@ const PublicRoutes = () => {
         }
       />
 
+      <Route path="/reset-password" element={<RequestResetPassword />} />
       {/* Password reset route with token parameter for validation */}
       <Route path="/resetPassword/:token" element={<ResetPassword />} />
 
