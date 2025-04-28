@@ -31,7 +31,7 @@ const traitColors = {
   Precision: "#008e9e",
   Resolve: "#ed3e44",
   Harmony: "#72a854",
-  Innovation: "#e8cf9b",
+  Innovation: "#daa520",
 };
 
 const getAdjustmentType = (current: number, target: number) => {
@@ -128,7 +128,7 @@ const CombinedTraitBarChart = ({
           "rgba(0, 142, 158, 0.5)", // Precision lighter
           "rgba(237, 62, 68, 0.5)", // Resolve lighter
           "rgba(114, 168, 84, 0.5)", // Harmony lighter
-          "rgba(232, 207, 155, 0.5)", // Innovation lighter
+          "rgba(240, 165, 32, 0.4)", // Innovation lighter (changed from 0.7 to 0.3 opacity)
         ],
         borderColor: [
           "#008e9e", // Precision
@@ -150,7 +150,7 @@ const CombinedTraitBarChart = ({
           "#008e9e", // Precision
           "#ed3e44", // Resolve
           "#72a854", // Harmony
-          "#e8cf9b", // Innovation
+          "rgba(240, 165, 32, 0.6)", // Innovation lighter (changed from 0.7 to 0.3 opacity)
         ],
         borderColor: [
           "#008e9e", // Precision

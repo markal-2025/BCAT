@@ -258,19 +258,19 @@ const Promise = () => {
           <div className="grid items-center w-full grid-cols-1 gap-5 md:grid-cols-2">
             <input
               name="firstName"
-              className="px-1 py-1.5 pl-10  border rounded-lg outline-none mt-1 border-gray-300"
+              className="px-1 py-1.5 pl-5  border rounded-lg outline-none mt-1 border-gray-300"
               type="text"
               placeholder="First Name"
             />
             <input
               name="lastName"
-              className="px-1 py-1 pl-10 mt-1 border border-gray-300 rounded-lg outline-none "
+              className="px-1 py-1 pl-5 mt-1 border border-gray-300 rounded-lg outline-none "
               type="text"
               placeholder="Last Name"
             />
             <input
               name="email"
-              className="px-1 py-1.5 pl-10  border rounded-lg outline-none mt-1 border-gray-300"
+              className="px-1 py-1.5 pl-5  border rounded-lg outline-none mt-1 border-gray-300"
               type="email"
               placeholder="Email Address"
             />

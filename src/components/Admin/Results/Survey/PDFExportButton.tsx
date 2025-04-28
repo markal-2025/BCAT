@@ -186,16 +186,14 @@ const generatePDFReport = async (data: any) => {
             // If more than 70% of pixels are white, invert the colors
             if (whitePixels > (data.length / 4) * 0.7) {
               for (let i = 0; i < data.length; i += 4) {
-                data[i] = 255 - data[i]; // Red
-                data[i + 1] = 255 - data[i + 1]; // Green
-                data[i + 2] = 255 - data[i + 2]; // Blue
-                // Alpha channel remains unchanged
+                data[i] = 255 - data[i];
+                data[i + 1] = 255 - data[i + 1];
+                data[i + 2] = 255 - data[i + 2];
               }
               ctx.putImageData(imageData, 0, 0);
             }
           } catch (error) {
             console.warn("Could not process image colors:", error);
-            // Continue with the original image if color processing fails
           }
 
           // Calculate logo dimensions (max width 40mm, maintain aspect ratio)
@@ -207,10 +205,13 @@ const generatePDFReport = async (data: any) => {
           // Center the logo horizontally
           const logoX = (pageWidth - logoWidth) / 2;
 
+          // Convert to JPEG with reduced quality
+          const logoData = canvas.toDataURL("image/jpeg", 0.8);
+
           // Add processed logo to PDF
           pdf.addImage(
-            canvas.toDataURL("image/png"),
-            "PNG",
+            logoData,
+            "JPEG",
             logoX,
             yPosition,
             logoWidth,
@@ -238,9 +239,15 @@ const generatePDFReport = async (data: any) => {
           const logoHeight = logoWidth / logoAspectRatio;
           const logoX = (pageWidth - logoWidth) / 2;
 
+          // Convert to JPEG with reduced quality
+          const logoData = img.src.replace(
+            "data:image/png",
+            "data:image/jpeg;quality=0.8"
+          );
+
           pdf.addImage(
-            organization.logo,
-            "PNG",
+            logoData,
+            "JPEG",
             logoX,
             yPosition,
             logoWidth,
@@ -250,7 +257,6 @@ const generatePDFReport = async (data: any) => {
           yPosition += logoHeight + 10;
         } catch (fallbackError) {
           console.error("Fallback logo addition failed:", fallbackError);
-          // Continue without logo
         }
       }
     }
@@ -356,18 +362,29 @@ const generatePDFReport = async (data: any) => {
       }
 
       try {
-        // Capture the chart element as a canvas
+        // Capture the chart element as a canvas with reduced scale and quality
         const canvas = await html2canvas(chartRef, {
-          scale: 2,
-          logging: false, // Changed to false to reduce console noise
+          scale: 1.5, // Reduced from 2 to 1.5
+          logging: false,
           useCORS: true,
           windowHeight: chartRef.scrollHeight,
           height: chartRef.scrollHeight,
+          imageTimeout: 0, // Disable image timeout
+          backgroundColor: "#FFFFFF", // Ensure white background
+          onclone: (clonedElement) => {
+            // Optimize cloned element
+            const images = clonedElement.getElementsByTagName("img");
+            for (let i = 0; i < images.length; i++) {
+              images[i].style.maxWidth = "100%";
+              images[i].style.height = "auto";
+            }
+          },
         });
 
-        const imgData = canvas.toDataURL("image/png");
+        // Convert to JPEG with reduced quality
+        const imgData = canvas.toDataURL("image/jpeg", 0.8); // Using JPEG with 80% quality
 
-        const imgWidth = 180; // Width in mm
+        const imgWidth = pageWidth - 30;
         const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
         // Check if we need a new page
@@ -377,17 +394,17 @@ const generatePDFReport = async (data: any) => {
         }
 
         // Add the image to PDF
-        pdf.addImage(imgData, "PNG", 15, currentY, imgWidth, imgHeight);
+        pdf.addImage(imgData, "JPEG", 15, currentY, imgWidth, imgHeight);
 
         // Add caption
         currentY += imgHeight + 5;
         pdf.setFontSize(9);
         pdf.text(caption, pageWidth / 2, currentY, { align: "center" });
 
-        return currentY + 15; // Return the new Y position
+        return currentY + 15;
       } catch (error) {
         console.error(`Error capturing chart (${caption}):`, error);
-        return currentY; // Return unchanged Y if there was an error
+        return currentY;
       }
     }
 
@@ -502,23 +519,23 @@ const generatePDFReport = async (data: any) => {
           pdf.addPage();
           yPosition = 15;
 
-          // Temporarily increase the height of the chart container to ensure all content is captured
+          // Temporarily increase the height of the chart container
           const chartElement = chartRefs.traitsBarChartRef.current;
           const originalHeight = chartElement.style.height;
 
           // Set auto height to ensure all content is visible
           chartElement.style.height = "auto";
-          chartElement.style.minHeight = "800px"; // Ensure enough space for indicators
+          chartElement.style.minHeight = "800px";
 
-          // Use a higher scale factor for better quality
+          // Use reduced scale factor and optimize image quality
           const canvas = await html2canvas(chartElement, {
-            scale: 2,
+            scale: 1.5, // Reduced from 2 to 1.5
             logging: false,
             useCORS: true,
             windowHeight: chartElement.scrollHeight,
             height: chartElement.scrollHeight,
+            backgroundColor: "#FFFFFF",
             onclone: (clonedElement) => {
-              // Make sure all elements are visible in the clone
               const indicators = clonedElement.querySelectorAll(
                 ".flex.items-center.gap-2"
               );
@@ -526,6 +543,7 @@ const generatePDFReport = async (data: any) => {
                 if (indicator instanceof HTMLElement) {
                   indicator.style.display = "flex";
                   indicator.style.marginBottom = "10px";
+                  indicator.style.width = "100%";
                 }
               });
             },
@@ -534,12 +552,14 @@ const generatePDFReport = async (data: any) => {
           // Restore original height
           chartElement.style.height = originalHeight;
 
-          const imgData = canvas.toDataURL("image/png");
-          const imgWidth = 180; // Width in mm
+          // Convert to JPEG with reduced quality
+          const imgData = canvas.toDataURL("image/jpeg", 0.8);
+
+          const imgWidth = pageWidth - 30;
           const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
           // Add the image to PDF
-          pdf.addImage(imgData, "PNG", 15, yPosition, imgWidth, imgHeight);
+          pdf.addImage(imgData, "JPEG", 15, yPosition, imgWidth, imgHeight);
 
           // Add caption
           yPosition += imgHeight + 5;
@@ -548,7 +568,7 @@ const generatePDFReport = async (data: any) => {
             align: "center",
           });
 
-          yPosition += 15; // Return the new Y position
+          yPosition += 15;
         } catch (error) {
           console.error("Error capturing Traits Bar chart:", error);
         }
@@ -637,9 +657,9 @@ const generatePDFReport = async (data: any) => {
 
         yPos += 8;
 
-        // Draw background boxes
-        pdf.setFillColor(255, 255, 255); // White background
-        pdf.setDrawColor(229, 231, 235); // Light gray border
+        // Draw background boxes with darker background
+        pdf.setFillColor(248, 248, 248); // Brighter gray background
+        pdf.setDrawColor(220, 220, 220); // Slightly darker border color
 
         // Calculate heights based on content
         const teamBoxHeight = orderedTeamWordings.length * 25 + 60;
@@ -677,7 +697,12 @@ const generatePDFReport = async (data: any) => {
           const g = parseInt(hexColor.slice(3, 5), 16);
           const b = parseInt(hexColor.slice(5, 7), 16);
 
-          pdf.setTextColor(r, g, b);
+          // Use brighter yellow for innovation in team values
+          if (trait.traitName === "Innovation") {
+            pdf.setTextColor(234, 179, 8); // Using a bright yellow
+          } else {
+            pdf.setTextColor(r, g, b);
+          }
           pdf.setFontSize(10);
           pdf.setFont("helvetica", "normal");
 
@@ -700,7 +725,12 @@ const generatePDFReport = async (data: any) => {
             const g = parseInt(hexColor.slice(3, 5), 16);
             const b = parseInt(hexColor.slice(5, 7), 16);
 
-            pdf.setTextColor(r, g, b);
+            // Use brighter yellow for innovation in resonance values
+            if (trait.traitName === "Innovation") {
+              pdf.setTextColor(234, 179, 8); // Using a bright yellow
+            } else {
+              pdf.setTextColor(r, g, b);
+            }
             pdf.setFontSize(10);
             pdf.setFont("helvetica", "normal");
 
@@ -750,7 +780,7 @@ const generatePDFReport = async (data: any) => {
         precision: [8, 145, 178] as [number, number, number], // cyan-600 equivalent
         resolve: [239, 68, 68] as [number, number, number], // red-500 equivalent
         harmony: [22, 163, 74] as [number, number, number], // green-600 equivalent
-        innovation: [251, 191, 36] as [number, number, number], // amber-400 equivalent
+        innovation: [234, 179, 8] as [number, number, number], // yellow-500 equivalent
         black: [0, 0, 0] as [number, number, number],
         gray: [107, 114, 128] as [number, number, number], // gray-500 equivalent
       };
@@ -823,11 +853,7 @@ const generatePDFReport = async (data: any) => {
       xPos += colWidths[3];
 
       // Innovation header with color
-      pdf.setTextColor(
-        colors.innovation[0],
-        colors.innovation[1],
-        colors.innovation[2]
-      );
+      pdf.setTextColor(234, 179, 8); // Using a bright yellow
       pdf.text("Innovation", xPos + 4, currentY + 6);
       pdf.setTextColor(colors.gray[0], colors.gray[1], colors.gray[2]);
       pdf.setFontSize(7);
@@ -982,7 +1008,7 @@ const generatePDFReport = async (data: any) => {
             name: "Innovation",
             rank: user.innovationRank,
             color: colors.innovation,
-            lightColor: [254, 243, 199] as [number, number, number], // amber-100 equivalent
+            lightColor: [254, 249, 195] as [number, number, number], // yellow-100 equivalent
           },
         ];
 
@@ -1053,11 +1079,15 @@ const generatePDFReport = async (data: any) => {
         pdf.roundedRect(badgeX, badgeY, badgeWidth, badgeHeight, 3, 3, "F");
 
         // Draw trait name with matching color
-        pdf.setTextColor(
-          primaryTrait.color[0],
-          primaryTrait.color[1],
-          primaryTrait.color[2]
-        );
+        if (primaryTrait.name === "Innovation") {
+          pdf.setTextColor(234, 179, 8); // Using a bright yellow
+        } else {
+          pdf.setTextColor(
+            primaryTrait.color[0],
+            primaryTrait.color[1],
+            primaryTrait.color[2]
+          );
+        }
         pdf.setFontSize(8);
         pdf.setFont("helvetica", "bold");
         pdf.text(
