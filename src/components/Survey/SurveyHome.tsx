@@ -331,7 +331,7 @@ const SurveyHome = () => {
                         className="w-full p-2 mt-2 border rounded-lg border-Turquoise "
                         aria-label="minimum height"
                         minRows={3}
-                        placeholder="Describe the mission of your team"
+                        placeholder="Describe your current role on this Team"
                       />
                     </div>
                   </div>

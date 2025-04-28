@@ -398,7 +398,7 @@ const SurveyResults = () => {
     Precision: "#008e9e",
     Resolve: "#ed3e44",
     Harmony: "#72a854",
-    Innovation: "#e8cf9b",
+    Innovation: "rgb(234, 179, 8)",
   };
 
   /**
