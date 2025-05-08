@@ -73,6 +73,51 @@ const CreateTeam = ({
       const teamDescription = formData.get("teamDescription")?.toString() || "";
       const teamMission = formData.get("teamMission")?.toString() || "";
       const teamDepartment = formData.get("departmentName")?.toString() || "";
+
+      // Check if team has at least one member
+      if (currentMembers.length === 0) {
+        toast.error(
+          "A team must have at least one member. Please add members before creating the team.",
+          {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce,
+          }
+        );
+        return;
+      }
+
+      // Check for duplicate team name or department
+      const isDuplicate = savedTeams.some(
+        (team) =>
+          team.name.toLowerCase() === teamName.toLowerCase() ||
+          team.departmentName.toLowerCase() === teamDepartment.toLowerCase()
+      );
+
+      if (isDuplicate) {
+        toast.error(
+          "A team with this name or department already exists. Please use a different name or department.",
+          {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce,
+          }
+        );
+        return;
+      }
+
       const newTeam: Team = {
         name: teamName,
         community: teamCommunity,
@@ -228,6 +273,7 @@ const CreateTeam = ({
     newTeams.splice(index, 1);
     setSavedTeams(newTeams);
   };
+  console.log(savedTeams);
 
   return (
     <>

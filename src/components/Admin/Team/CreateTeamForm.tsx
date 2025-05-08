@@ -290,12 +290,16 @@ const CreateTeamForm: React.FC<CreateTeamFormProps> = ({
             <button
               type="button"
               onClick={handleFormSubmit}
-              className={`btn-primary !w-full 
-                // isCreateDisabled ? "opacity-50 cursor-not-allowed" : ""
-              `}
-              // disabled={isCreateDisabled}
+              className={`btn-primary !w-full ${
+                currentMembers.length === 0
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
+              }`}
+              disabled={currentMembers.length === 0}
             >
-              Create Team
+              {currentMembers.length === 0
+                ? "Add at least one member to create team"
+                : "Create Team"}
             </button>
           </div>
         </div>
