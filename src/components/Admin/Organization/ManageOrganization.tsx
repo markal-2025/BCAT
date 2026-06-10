@@ -121,10 +121,10 @@ const ManageOrganization = ({ inititate }: { inititate?: boolean }) => {
         <div
           className={`hidden md:grid ${gridClasses.tablet} px-4 text-sm text-gray-500`}
         >
-          <div className="col-span-3">Name</div>
-          <div className="col-span-3">Description</div>
-          <div className="col-span-2">Date Created</div>
-          <div className="col-span-2 text-center">Teams</div>
+          <div className="col-span-4">Name</div>
+          {/* <div className="col-span-3">Description</div> */}
+          <div className="col-span-3">Date Created</div>
+          <div className="col-span-3 text-center">Teams</div>
           <div className="col-span-2">Actions</div>
         </div>
 
@@ -146,9 +146,9 @@ const ManageOrganization = ({ inititate }: { inititate?: boolean }) => {
                 {new Date(org.createdAt).toLocaleDateString()} ·{" "}
                 {org.teams.length} teams
               </div>
-              <div className="mt-1 text-sm text-gray-600 break-words">
+              {/* <div className="mt-1 text-sm text-gray-600 break-words">
                 {org.description || "No description..."}
-              </div>
+              </div> */}
             </div>
 
             {/* Mobile view: Actions column */}
@@ -157,16 +157,16 @@ const ManageOrganization = ({ inititate }: { inititate?: boolean }) => {
             </div>
 
             {/* Desktop view */}
-            <div className="hidden col-span-3 font-medium break-words whitespace-normal md:block">
+            <div className="hidden col-span-4 font-medium break-words whitespace-normal md:block">
               {org.name}
             </div>
-            <div className="hidden col-span-3 text-gray-600 break-words whitespace-normal md:block">
+            {/* <div className="hidden col-span-3 text-gray-600 break-words whitespace-normal md:block">
               {org.description || "No description..."}
-            </div>
-            <div className="hidden col-span-2 md:block">
+            </div> */}
+            <div className="hidden col-span-3 md:block">
               {new Date(org.createdAt).toLocaleDateString()}
             </div>
-            <div className="hidden col-span-2 text-center md:block">
+            <div className="hidden col-span-3 text-center md:block">
               {org.teams.length}
             </div>
 
