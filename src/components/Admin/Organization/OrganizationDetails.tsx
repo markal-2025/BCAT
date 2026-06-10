@@ -319,10 +319,10 @@ const OrganizationDetails = ({ initiate }: { initiate?: boolean }) => {
       {initiate && (
         <>
           <div className="hidden grid-cols-12 px-4 text-sm text-gray-500 md:grid">
-            <div className="col-span-3">Name</div>
-            <div className="col-span-3">Description</div>
-            <div className="col-span-2">Date Created</div>
-            <div className="col-span-2 text-center">Teams</div>
+            <div className="col-span-4">Name</div>
+            {/* <div className="col-span-3">Description</div> */}
+            <div className="col-span-3">Date Created</div>
+            <div className="col-span-3 text-center">Teams</div>
             <div className="col-span-2">Actions</div>
           </div>
           <div
@@ -330,19 +330,19 @@ const OrganizationDetails = ({ initiate }: { initiate?: boolean }) => {
               initiate ? "cursor-pointer hover:bg-gray-50" : ""
             }`}
           >
-            <div className="w-3/4 col-span-3 font-medium break-words whitespace-normal">
+            <div className="col-span-4 font-medium break-words whitespace-normal">
               {currentOrganization.organization.name}
             </div>
-            <div className="col-span-3 text-gray-600 break-words whitespace-normal">
+            {/* <div className="col-span-3 text-gray-600 break-words whitespace-normal">
               {currentOrganization.organization.description ||
                 "Lorem ipsum dolor sit amet consectetur, adipisicing elit..."}
-            </div>
-            <div className="col-span-2">
+            </div> */}
+            <div className="col-span-3">
               {new Date(
                 currentOrganization.organization.createdAt
               ).toLocaleDateString()}
             </div>
-            <div className="col-span-2 text-center">
+            <div className="col-span-3 text-center">
               {currentOrganization.teams.length}
             </div>
             <div className="flex col-span-2 gap-2">
